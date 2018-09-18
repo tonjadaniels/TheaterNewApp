@@ -4,7 +4,6 @@ class CreateRoles < ActiveRecord::Migration[5.2]
       t.integer :production_id
       t.integer :professional_id
       t.string :title
-
       t.timestamps
     end
   end
