@@ -6,8 +6,7 @@ class CreatePerformances < ActiveRecord::Migration[5.2]
       t.time :time
       t.integer :tickets_available
       t.integer :tickets_sold
-      t.decimal4 :ticket_price
-      t.decimal2 :ticket_price
+      t.decimal :ticket_price, precision: 5, scale: 2
 
       t.timestamps
     end
