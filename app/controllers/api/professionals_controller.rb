@@ -1,7 +1,7 @@
 class Api::ProfessionalsController < ApplicationController
 
   def index
-    @professionals = Professionals.all
+    @professionals = Professional.all
     render "index.json.jbuilder"
   end
 

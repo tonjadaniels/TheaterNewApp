@@ -21,6 +21,7 @@ Professional.create!([
   {name: "JC Montgomery", bio: "J.C. Montgomery is an actor, known for The Producers (2005), The Blacklist (2013) and Gypsy (2017).", image: "https://m.media-amazon.com/images/M/MV5BMTg1NTQwMzMyOF5BMl5BanBnXkFtZTgwNTgyODkwNDE@._V1_UX214_CR0,0,214,317_AL_.jpg"},
   {name: "Brad Weinstock", bio: "Broadway debut! National Tours: Jersey Boys as Frankie Valli, Wicked as Boq. Broadway in Chicago: 25th Annual Putnam County Spelling Bee as Chip. Regional: Sweeney Todd as Geva, Hero as Asolo Rep. Northwestern graduate. He was also a contestant on Who Wants to Be a Millionaire. Thanks to Mom, Dad, and to Bug, who is a wish granted.", image: "http://www.aladdinthemusical.com/themes/uploads/BradWeinstock.jpg"}
 ])
+
 Role.create!([
   {production_id: 1, professional_id: 1, title: "Director"},
   {production_id: 1, professional_id: 2, title: "Writer"},
