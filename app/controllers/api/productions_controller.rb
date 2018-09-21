@@ -1,7 +1,7 @@
 class Api::ProductionsController < ApplicationController
 
   def index
-    @productions = Productions.all
+    @productions = Production.all
     render "index.json.jbuilder"
   end
 
