@@ -1,3 +1,8 @@
+Performance.create!([
+  {production_id: 1, date: "2018-10-18", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 1, date: "2018-10-19", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 1, date: "2018-10-20", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"}
+])
 Production.create!([
   {title: "Seize The King", synopsis_short: "Full-throttle reinterpretation of Shakespeare's Richard III. With England's throne empty, Richard knocks down threats to his rule, fueling his insatiable ambition and paranoia.", synopsis_long: nil, image_small: nil, image_large: "https://m99hcb.media.zestyio.com/STK-artstix-1100x400-2.91e4652ca57ce9ccaded162182778c38.jpg"},
   {title: "Aladdin", synopsis_short: "In the middle-eastern town of Agrabah, Princess Jasmine is feeling hemmed in by her father’s desire to find her a royal groom. When Jasmine sneaks out of the palace incognito, she forms an instant connection with Aladdin, a charming street urchin and reformed thief.", synopsis_long: nil, image_small: nil, image_large: "http://jillscabanastories.files.wordpress.com/2013/07/disney-fantasy-0218zy_0360ms.jpg"},
@@ -21,7 +26,6 @@ Professional.create!([
   {name: "JC Montgomery", bio: "J.C. Montgomery is an actor, known for The Producers (2005), The Blacklist (2013) and Gypsy (2017).", image: "https://m.media-amazon.com/images/M/MV5BMTg1NTQwMzMyOF5BMl5BanBnXkFtZTgwNTgyODkwNDE@._V1_UX214_CR0,0,214,317_AL_.jpg"},
   {name: "Brad Weinstock", bio: "Broadway debut! National Tours: Jersey Boys as Frankie Valli, Wicked as Boq. Broadway in Chicago: 25th Annual Putnam County Spelling Bee as Chip. Regional: Sweeney Todd as Geva, Hero as Asolo Rep. Northwestern graduate. He was also a contestant on Who Wants to Be a Millionaire. Thanks to Mom, Dad, and to Bug, who is a wish granted.", image: "http://www.aladdinthemusical.com/themes/uploads/BradWeinstock.jpg"}
 ])
-
 Role.create!([
   {production_id: 1, professional_id: 1, title: "Director"},
   {production_id: 1, professional_id: 2, title: "Writer"},

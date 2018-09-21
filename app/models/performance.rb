@@ -1,5 +1,5 @@
 class Performance < ApplicationRecord
 
-  belongs_to :productions
+  belongs_to :production
   
 end
