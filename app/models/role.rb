@@ -1,6 +1,6 @@
 class Role < ApplicationRecord
 
-  belongs_to :productions
-  belongs_to :professionals
+  belongs_to :production
+  belongs_to :professional
   
 end
