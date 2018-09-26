@@ -1,8 +1,3 @@
-Performance.create!([
-  {production_id: 1, date: "2018-10-18", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
-  {production_id: 1, date: "2018-10-19", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
-  {production_id: 1, date: "2018-10-20", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"}
-])
 Production.create!([
   {title: "Seize The King", synopsis_short: "Full-throttle reinterpretation of Shakespeare's Richard III. With England's throne empty, Richard knocks down threats to his rule, fueling his insatiable ambition and paranoia.", synopsis_long: nil, image_small: nil, image_large: "https://m99hcb.media.zestyio.com/STK-artstix-1100x400-2.91e4652ca57ce9ccaded162182778c38.jpg"},
   {title: "Aladdin", synopsis_short: "In the middle-eastern town of Agrabah, Princess Jasmine is feeling hemmed in by her father’s desire to find her a royal groom. When Jasmine sneaks out of the palace incognito, she forms an instant connection with Aladdin, a charming street urchin and reformed thief.", synopsis_long: nil, image_small: nil, image_large: "http://jillscabanastories.files.wordpress.com/2013/07/disney-fantasy-0218zy_0360ms.jpg"},
@@ -33,3 +28,9 @@ Role.create!([
   {production_id: 1, professional_id: 4, title: "Actor"},
   {production_id: 1, professional_id: 5, title: "Actor"}
 ])
+Performance.create!([
+  {production_id: 1, date: "2018-10-18", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 1, date: "2018-10-19", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 1, date: "2018-10-20", time: "2000-01-01 03:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"}
+])
+
