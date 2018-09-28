@@ -18,10 +18,28 @@ var HomePage = {
   computed: {}
 };
 
+var ShowProductionPage = {
+  template: "#show-production-page",
+  data: function(){
+    return {
+      production: {performances: [{}]}
+    };
+  },
+  created: function() {
+    axios.get("api/productions/" + this.$route.params.id).then(function(response){
+      this.production = response.data;
+      console.log(this.production);
+    }.bind(this)); 
+  },
+};
+
 
 
 var router = new VueRouter({
-  routes: [{ path: "/", component: HomePage }],
+  routes: [
+  { path: "/", component: HomePage },
+  { path: "/productions/:id", component: ShowProductionPage },
+  ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
   }
