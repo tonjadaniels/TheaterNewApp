@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'member_token' => 'member_token#create'
   # STEP 1: A ROUTE triggers a controller action
   # verb "/urls" => "namespace/controllers#action"
 
