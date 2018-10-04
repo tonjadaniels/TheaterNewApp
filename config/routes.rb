@@ -16,5 +16,8 @@ Rails.application.routes.draw do
     get "performances" => "performances#index"
     get "performances/:id" => "performances#show"
 
+    post "/members" => "members#create"
+
   end
+
 end
