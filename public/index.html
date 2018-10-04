@@ -30,9 +30,11 @@
   <div class="vue-component">
 
     <h1>{{ message }}</h1>
-    <div v-for="production in productions">{{ production.title }}
-    {{ production.synopsis_short}}
-    <img :src="production.image_large">
+    <div v-for="production in productions">
+      <a v-bind:href="'/#/productions/' + production.id">{{ production.title }}</a>
+    <div>{{ production.synopsis_short}}</div>
+
+    <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large"></a>
     <div v-for="performance in production.performances">{{ performance.date}}
     </div>
   </div>
@@ -42,11 +44,11 @@
 
 <template id="show-production-page">
   <div class="vue-component">
-    
     <h2>{{ production.title }}</h2>
     <div>${{ production.performances[0].ticket_price }}</div>
     <img :src="production.image_large" style="width:100%">
     <p>{{ production.synopsis_short}}</p>
+
 
     <h1>Cast</h1>
     <div v-for="role in production.cast">
@@ -59,6 +61,7 @@
     </div>
     <a href="/" class="btn btn-secondary">Back to Index</a>
   </div>
+
   
 </template>
 
