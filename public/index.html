@@ -37,7 +37,7 @@
       <a v-bind:href="'/#/productions/' + production.id">{{ production.title }}</a>
     <div>{{ production.synopsis_short}}</div>
 
-    <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large"></a>
+    <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large" style="width:100%"></a>
     <div v-for="performance in production.performances">{{ performance.date}}
     </div>
   </div>
