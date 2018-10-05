@@ -19,6 +19,11 @@ Rails.application.routes.draw do
 
     post "/members" => "members#create"
 
+    get "carted_tickets" => "carted_tickets#index"
+    get "carted_tickets/:id" => "carted_tickets#show"
+    post "carted_tickets" => "carted_tickets#create"
+    delete "carted_tickets/:id" => "carted_tickets#destroy"
+
   end
 
 end

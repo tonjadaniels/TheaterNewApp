@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_04_020718) do
+ActiveRecord::Schema.define(version: 2018_10_05_021027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carted_tickets", force: :cascade do |t|
+    t.integer "member_id"
+    t.integer "performance_id"
+    t.integer "order_id"
+    t.integer "quantity"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "members", force: :cascade do |t|
     t.string "name"
@@ -23,6 +33,13 @@ ActiveRecord::Schema.define(version: 2018_10_04_020718) do
     t.string "password_digest"
     t.boolean "volunteer", default: false
     t.boolean "admin", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "member_id"
+    t.integer "total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
