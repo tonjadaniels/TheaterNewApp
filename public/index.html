@@ -71,6 +71,31 @@
   
 </template>
 
+<template id="ticket-cart-page">
+  <div class="vue-component">
+
+    <h1>Pending Ticket Purchases</h1>
+    <div v-for="ticket in cartedTickets">
+
+      <h3>{{ticket.title}}</h3>
+      <div>Number of Tickets:  {{ ticket.quantity}}</div>
+      <div>Date:  {{ticket.performance.date}}</div>
+      <div>Time:  {{ticket.performance.time}}</div>
+      <div>Total Cost:  {{ticket.total}}</div>
+      <br>
+      <div>
+        <router-link to="'carted_tickets/' + this.cartedTicket.id + '/edit'" class="btn btn-primary">Change Quantity</router-link>
+        <a v-on:click="deleteCartedTicket()" class="btn btn-primary">Delete From Cart</a>   
+      </div><br>
+
+
+    </div>
+
+    <a v-on:click="orderTickets()" class="btn btn-primary">Order Tickets</a>  
+  </div>
+</template>
+
+
 <template id="signup-page">
   <div class="vue-component">
 
