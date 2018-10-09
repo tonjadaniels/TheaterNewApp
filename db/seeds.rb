@@ -1,4 +1,3 @@
-
 Member.create!([
   {name: "Tom Hanks", address: "1 Forest Street, Beverly Hills CA 90210", phone: "(310) 555-6677", email: "thanks@gmail.com", password_digest: "$2a$10$.duNQuUMZxnuBG9E.PQtGONQsejVA1ENq7IInmgGbVlOC5HC3nbAC", volunteer: false, admin: false},
   {name: "Morgan Freeman", address: "10 Pearly Gates Way, Beverly Hills, CA 90210", phone: "(310) 555-1111", email: "morgan@gmail.com", password_digest: "$2a$10$IpQxl/SGEzK/7csujS95Zux1ia24h9oOnqSc0pZwn1WOB3ZRtwbBO", volunteer: false, admin: false},
@@ -40,8 +39,8 @@ Role.create!([
   {production_id: 1, professional_id: 5, title: "Actor"}
 ])
 CartedTicket.create!([
-  {member_id: 1, performance_id: 1, order_id: nil, quantity: 1, status: "carted"},
   {member_id: 2, performance_id: 3, order_id: nil, quantity: 3, status: "carted"},
   {member_id: 1, performance_id: 2, order_id: nil, quantity: 4, status: "carted"},
-  {member_id: 1, performance_id: 3, order_id: nil, quantity: 2, status: "carted"}
+  {member_id: 1, performance_id: 1, order_id: nil, quantity: 3, status: "carted"},
+  {member_id: 1, performance_id: 3, order_id: nil, quantity: 2, status: "removed"}
 ])
