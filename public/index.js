@@ -33,6 +33,23 @@ var ShowProductionPage = {
   },
 };
 
+var TicketCartPage = {
+  template: "#ticket-cart-page",
+  data: function() {
+    return {
+      cartedTickets: []
+    };
+  },
+  created: function() {
+    axios.get("/api/carted_tickets").then(function(response){
+     this.cartedTickets = response.data;
+     console.log(this.cartedTickets);
+   }.bind(this));
+  },
+  methods: {},
+  computed: {}
+};
+
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -89,7 +106,9 @@ var LoginPage = {
         .then(function(response) {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
+            console.log(response);
           localStorage.setItem("jwt", response.data.jwt);
+          sessionStorage.setItem("member", response.data.member.id);
           router.push("/");
         })
         .catch(
@@ -117,10 +136,12 @@ var LogoutPage = {
 var router = new VueRouter({
   routes: [
   { path: "/", component: HomePage },
-  {path: "/signup", component: SignupPage },
+  { path: "/productions/:id", component: ShowProductionPage },
+  { path: "/carted_tickets/", component: TicketCartPage },
+  { path: "/signup", component: SignupPage },
   { path: "/login", component: LoginPage },
-  { path: "/logout", component: LogoutPage },
-  { path: "/productions/:id", component: ShowProductionPage }
+  { path: "/logout", component: LogoutPage }
+
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

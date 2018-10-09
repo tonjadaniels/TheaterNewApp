@@ -1,20 +1,22 @@
 class Api::CartedTicketsController < ApplicationController
 
+  before_action :authenticate_member
+
    def index
 
-    @carted_tickets = CartedTicket.all
-    render "index.json.jbuilder"
+   # @carted_tickets = CartedTicket.all
+   #  render "index.json.jbuilder"
 
     # if current_member 
-    #   @carted_tickets = current_member.carted_tickets.where('status = ?', 'carted')
+      @carted_tickets = current_member.carted_tickets.where('status = ?', 'carted')
 
-    #   render 'index.json.jbuilder'
+      render 'index.json.jbuilder'
       
     # else
     #   render json: ["fail"]
     # end
-  end
 
+  end
 
  def create
    @carted_ticket = CartedTicket.create(
