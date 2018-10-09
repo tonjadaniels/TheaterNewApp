@@ -46,7 +46,47 @@ var TicketCartPage = {
      console.log(this.cartedTickets);
    }.bind(this));
   },
-  methods: {},
+  methods: {
+    deleteCartedTicket(ticket){
+      axios.delete("api/carted_tickets/" + ticket.id).
+      then(function(response){
+        router.push("/");
+      })
+    }
+  },
+  computed: {}
+};
+
+var TicketEditPage = {
+  template: "#ticket-edit-page",
+  data: function() {
+    return {
+      quantity: ""
+    };
+  },
+  created: function() {
+    axios.get("/api/carted_tickets/" + this.$route.params.id).then(function(response){
+     this.quantity = response.data.quantity;
+     console.log(this.quantity);
+   }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        quantity: this.quantity
+      };
+      axios
+        .patch("/api/carted_tickets/" + this.$route.params.id, params)
+        .then(function(response) {
+          router.push("/carted_tickets");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+  },
   computed: {}
 };
 
@@ -138,6 +178,7 @@ var router = new VueRouter({
   { path: "/", component: HomePage },
   { path: "/productions/:id", component: ShowProductionPage },
   { path: "/carted_tickets/", component: TicketCartPage },
+  { path: "/carted_tickets/:id/edit", component: TicketEditPage },
   { path: "/signup", component: SignupPage },
   { path: "/login", component: LoginPage },
   { path: "/logout", component: LogoutPage }

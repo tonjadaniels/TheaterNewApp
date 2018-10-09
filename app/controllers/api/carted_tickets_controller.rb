@@ -2,7 +2,7 @@ class Api::CartedTicketsController < ApplicationController
 
   before_action :authenticate_member
 
-   def index
+def index
 
    # @carted_tickets = CartedTicket.all
    #  render "index.json.jbuilder"
@@ -15,8 +15,14 @@ class Api::CartedTicketsController < ApplicationController
     # else
     #   render json: ["fail"]
     # end
+end
 
-  end
+def show
+  @carted_ticket = CartedTicket.find(params[:id])
+
+  render "show.json.jbuilder"
+
+end 
 
  def create
    @carted_ticket = CartedTicket.create(
@@ -29,12 +35,21 @@ class Api::CartedTicketsController < ApplicationController
    render "show.json.jbuilder"
  end
 
+def update
+  @carted_ticket = CartedTicket.find(params[:id])
+  @carted_ticket.quantity = params[:quantity] 
+  @carted_ticket.save
 
- def destroy
+  render "show.json.jbuilder"
+
+end 
+
+
+def destroy
    @carted_ticket = CartedTicket.find_by(id: params[:id])
    @carted_ticket.update(status: "removed")
    render json: {message: "Carted Ticket removed"}
- end
+end
 
 
 end
