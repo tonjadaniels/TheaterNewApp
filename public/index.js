@@ -17,7 +17,13 @@ var HomePage = {
   },
   methods: {
     isAdmin: function() {
-      return localStorage.getItem("admin")
+      var adminTest = localStorage.getItem("admin");
+      if (adminTest === "true") {
+        return true
+      }
+      else {
+        return false
+      }
     },
     setPerf: function(performance) {
       this.performance = performance;

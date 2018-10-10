@@ -40,7 +40,7 @@
 
     <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large" style="width:100%"></a>
     <div v-for="performance in production.performances">{{ performance.date}}&emsp;
-      <button class="btn btn-outline-secondary btn-sm" v-if="isAdmin()" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#performanceEdit">Edit</button>
+      <button  v-if="isAdmin()" class="btn btn-outline-secondary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#performanceEdit">Edit</button>
     </div>
   </div>
 
