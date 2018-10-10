@@ -9,6 +9,7 @@ def index
 
     # if current_member 
       @carted_tickets = current_member.carted_tickets.where('status = ?', 'carted')
+      @carted_tickets = @carted_tickets.order(performance_id: :asc)
 
       render 'index.json.jbuilder'
       

@@ -4,6 +4,7 @@ class Api::PerformancesController < ApplicationController
 
   def index
     @performances = Performance.all
+    @performances = @performances.order('id ASC')
     render "index.json.jbuilder"
   end
 

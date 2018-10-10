@@ -6,7 +6,7 @@ json.image_small production.image_small
 json.image_large production.image_large
 
 json.cast do
-  json.array! production.roles.each do |role|
+  json.array! production.roles.each.sort_by{|o| o[:id]} do |role|
     json.role_id role.id
     json.current_role role.title
     json.name role.professional.name
@@ -16,6 +16,6 @@ json.cast do
 end
 
 json.performances do
-  json.array! production.performances, partial: "api/performances/performance", as: :performance
+  json.array! production.performances.sort_by{|o| o[:id]}, partial: "api/performances/performance", as: :performance
 end
 

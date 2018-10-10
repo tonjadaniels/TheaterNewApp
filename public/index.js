@@ -5,7 +5,8 @@ var HomePage = {
   data: function() {
     return {
       message: "Welcome to the show",
-      productions: []
+      productions: [],
+      performance: {}
     };
   },
   created: function() {
@@ -14,7 +15,28 @@ var HomePage = {
      console.log(this.productions);
    }.bind(this));
   },
-  methods: {},
+  methods: {
+    isAdmin: function() {
+      return localStorage.getItem("admin")
+    },
+    setPerf: function(performance) {
+      this.performance = performance;
+    },
+    save: function(performance) {
+      console.log(performance);
+      var params = {
+        date: performance.date,
+        time: performance.time,
+        tickets_available: performance.tickets_available,
+        tickets_sold: performance.tickets_sold,
+        ticket_price: performance.ticket_price
+        };
+        console.log(params);  
+      axios
+        .patch("/api/performances/" + performance.id, params)
+        // .then(function(response) {}) 
+    },    
+  },
   computed: {}
 };
 
@@ -148,7 +170,7 @@ var LoginPage = {
             "Bearer " + response.data.jwt;
             console.log(response);
           localStorage.setItem("jwt", response.data.jwt);
-          sessionStorage.setItem("member", response.data.member.id);
+          localStorage.setItem("admin", response.data.member.admin);
           router.push("/");
         })
         .catch(
@@ -167,6 +189,7 @@ var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
+    localStorage.removeItem("admin");
     router.push("/");
   }
 };
@@ -197,5 +220,13 @@ var app = new Vue({
     if (jwt) {
       axios.defaults.headers.common["Authorization"] = jwt;
     }
+  },
+  methods: {
+    isLoggedIn: function() {
+      if (localStorage.getItem("jwt")) {
+        return true;
+      }
+      return false;
+    },
   }
 });

@@ -9,7 +9,7 @@ class MemberTokenController < Knock::AuthTokenController
     if member && member.authenticate(password)
       body = {
         jwt: auth_token.token,
-        member: { id: member.id, name: member.name, email: member.email }
+        member: { id: member.id, name: member.name, email: member.email, admin: member.admin }
       }
       render json: body, status: :created
     else
