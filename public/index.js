@@ -61,6 +61,39 @@ var ShowProductionPage = {
   },
 };
 
+var ProfessionalNewPage = {
+  template: "#professional-new-page",
+  data: function() {
+    return {
+      name: "",
+      bio: "",
+      image: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        bio: this.bio,
+        image: this.image
+      };
+      axios
+        .post("/api/professionals", params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+
+
 var RoleIndexPage = {
   template: "#role-index-page",
   data: function() {
@@ -110,6 +143,36 @@ var RoleIndexPage = {
   computed: {}
 };
 
+var RoleNewPage = {
+  template: "#role-new-page",
+  data: function() {
+    return {
+      production_id: "",
+      professional_id: "",
+      title: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        production_id: this.production_id,
+        professional_id: this.professional_id,
+        title: this.title
+      };
+      axios
+        .post("/api/roles", params)
+        .then(function(response) {
+          router.push("/roles");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
 
 var TicketCartPage = {
   template: "#ticket-cart-page",
@@ -257,6 +320,8 @@ var router = new VueRouter({
   { path: "/", component: HomePage },
   { path: "/productions/:id", component: ShowProductionPage },
   { path: "/roles", component: RoleIndexPage },
+  { path: "/roles/new", component: RoleNewPage },
+  { path: "/professionals/new", component: ProfessionalNewPage },
   { path: "/carted_tickets/", component: TicketCartPage },
   { path: "/carted_tickets/:id/edit", component: TicketEditPage },
   { path: "/signup", component: SignupPage },

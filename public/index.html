@@ -166,6 +166,62 @@
 </div>
 </template>
 
+<template id="professional-new-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Create New Professional</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="name" class="form-control" v-model="name">
+        </div>
+        <div class="form-group">
+        <label>Bio:</label>
+        <input  class="form-control" v-model="bio">
+        </div>
+        <div class="form-group">
+        <label>Image:</label>
+        <input class="form-control" v-model="image">
+        </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a href="/" class="btn btn-secondary">Back to Homepage</a>
+    </div>
+
+  </div>
+</template>
+
+
+<template id="role-new-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Create New Role</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Production Id:</label>
+        <input type="production_id" class="form-control" v-model="production_id">
+        </div>
+        <div class="form-group">
+        <label>Professional Id:</label>
+        <input  class="form-control" v-model="professional_id">
+        </div>
+        <div class="form-group">
+        <label>Title:</label>
+        <input type="title" class="form-control" v-model="title">
+        </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a href="/#/roles" class="btn btn-secondary">Back to Roles</a>
+      <a href="/" class="btn btn-secondary">Back to Homepage</a>
+    </div>
+
+  </div>
+</template>
+
 
 <template id="ticket-edit-page"> 
   <div class="vue-component">
