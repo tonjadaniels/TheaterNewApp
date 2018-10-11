@@ -61,6 +61,56 @@ var ShowProductionPage = {
   },
 };
 
+var RoleIndexPage = {
+  template: "#role-index-page",
+  data: function() {
+    return {
+      message: "List of Roles",
+      roles: [],
+      role: {}
+      // productions: []
+    };
+  },
+  created: function() {
+    axios.get("/api/roles").then(function(response){
+     this.roles = response.data;
+     console.log(this.roles);
+   }.bind(this));    
+   //  axios.get("/api/productions").then(function(response){
+   //   this.productions = response.data;
+   //   console.log(this.productions);
+   // }.bind(this));
+  },
+  methods: {
+    isAdmin: function() {
+      var adminTest = localStorage.getItem("admin");
+      if (adminTest === "true") {
+        return true
+      }
+      else {
+        return false
+      }
+    },
+    setRole: function(role) {
+      this.role = role;
+    },
+    save: function(role) {
+      console.log(role);
+      var params = {
+        production_id: role.production_id,
+        professional_id: role.professional_id,
+        title: role.title
+        };
+        console.log(params);  
+      axios
+        .patch("/api/roles/" + role.id, params)
+        // .then(function(response) {}) 
+    },    
+  },
+  computed: {}
+};
+
+
 var TicketCartPage = {
   template: "#ticket-cart-page",
   data: function() {
@@ -206,6 +256,7 @@ var router = new VueRouter({
   routes: [
   { path: "/", component: HomePage },
   { path: "/productions/:id", component: ShowProductionPage },
+  { path: "/roles", component: RoleIndexPage },
   { path: "/carted_tickets/", component: TicketCartPage },
   { path: "/carted_tickets/:id/edit", component: TicketEditPage },
   { path: "/signup", component: SignupPage },
