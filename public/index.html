@@ -19,6 +19,7 @@
 </head>
 <body>
   <div id="vue-app">
+    <div class="container" style="margin-right: 15px;margin-left: 15px">
 
     <a href="/#/signup">Signup</a>
     <a href="/#/login">Login</a>
@@ -26,6 +27,7 @@
     <a v-if="this.$route.path !== '/carted_tickets'"href="/#/carted_tickets">Proceed to Checkout</a>
     <router-view></router-view>
 
+    </div>
   </div>
 </body>
 </html>
@@ -39,9 +41,51 @@
     <div>{{ production.synopsis_short}}</div>
 
     <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large" style="width:100%"></a>
-    <div v-for="performance in production.performances">{{ performance.date}}
+    <div v-for="performance in production.performances">{{ performance.date}}&emsp;
+      <button  v-if="isAdmin()" class="btn btn-outline-secondary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#performanceEdit">Edit</button>
     </div>
   </div>
+
+
+  <!-- Modal -->
+<div class="modal fade" id="performanceEdit" tabindex="-1" role="dialog" aria-labelledby="eperformanceEditLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="performanceLongTitle">Edit Performance Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+        <label>Date:</label>
+        <input type="date" class="form-control" v-model="performance.date">
+        </div>
+        <div class="form-group">
+        <label>Time:</label>
+        <input  class="form-control" v-model="performance.time">
+        </div>
+        <div class="form-group">
+        <label>Tickets Available:</label>
+        <input type="tickets_available" class="form-control" v-model="performance.tickets_available">
+        </div>
+        <div class="form-group">
+        <label>Tickets Sold:</label>
+        <input type="tickets_sold" class="form-control" v-model="performance.tickets_sold">
+        </div>
+        <div class="form-group">
+        <label>Ticket Price:</label>
+        <input type="ticket_price" class="form-control" v-model="performance.ticket_price">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="save(performance)" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   </div>
 </template>
@@ -71,6 +115,115 @@
 
   
 </template>
+
+<template id="role-index-page">
+  <div class="vue-component">
+    <div class="container">
+
+    <h1>{{ message }}</h1>
+    <div v-for="role in roles">
+      <div> Production Id:  {{ role.production_id }}</div>
+      <div> Production Name:  {{ role.show_title }}</div>
+      <div> Professional Id:  {{ role.professional_id}}</div>
+      <div> Name  {{ role.professional_name}}</div>
+      <div> Title:  {{ role.title }}</div>
+      <button  v-if="isAdmin()" class="btn btn-outline-secondary btn-sm" v-on:click="setRole(role)" data-toggle="modal" data-target="#roleEdit">Edit</button>
+      <br>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="roleEdit" tabindex="-1" role="dialog" aria-labelledby="roleEditLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roleLongTitle">Edit Role Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+        <label>Production Id:</label>
+        <input type="production_id" class="form-control" v-model="role.production_id">
+        </div>
+        <div class="form-group">
+        <label>Professional Id:</label>
+        <input  class="form-control" v-model="role.professional_id">
+        </div>
+        <div class="form-group">
+        <label>Title:</label>
+        <input type="title" class="form-control" v-model="role.title">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="save(role)" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</template>
+
+<template id="professional-new-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Create New Professional</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="name" class="form-control" v-model="name">
+        </div>
+        <div class="form-group">
+        <label>Bio:</label>
+        <input  class="form-control" v-model="bio">
+        </div>
+        <div class="form-group">
+        <label>Image:</label>
+        <input class="form-control" v-model="image">
+        </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a href="/" class="btn btn-secondary">Back to Homepage</a>
+    </div>
+
+  </div>
+</template>
+
+
+<template id="role-new-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Create New Role</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Production Id:</label>
+        <input type="production_id" class="form-control" v-model="production_id">
+        </div>
+        <div class="form-group">
+        <label>Professional Id:</label>
+        <input  class="form-control" v-model="professional_id">
+        </div>
+        <div class="form-group">
+        <label>Title:</label>
+        <input type="title" class="form-control" v-model="title">
+        </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a href="/#/roles" class="btn btn-secondary">Back to Roles</a>
+      <a href="/" class="btn btn-secondary">Back to Homepage</a>
+    </div>
+
+  </div>
+</template>
+
 
 <template id="ticket-edit-page"> 
   <div class="vue-component">
@@ -174,6 +327,7 @@
   </div>
 </template>
 
+<!-- Modal -->
 
 
 

@@ -13,9 +13,13 @@ Rails.application.routes.draw do
 
     get "roles" => "roles#index"
     get "roles/:id" => "roles#show"
+    post "roles" => "roles#create"
+    patch "roles/:id" => "roles#update"
 
     get "performances" => "performances#index"
     get "performances/:id" => "performances#show"
+    post "performances" => "performances#create"
+    patch "performances/:id" => "performances#update"
 
     post "/members" => "members#create"
 

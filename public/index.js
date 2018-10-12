@@ -5,7 +5,8 @@ var HomePage = {
   data: function() {
     return {
       message: "Welcome to the show",
-      productions: []
+      productions: [],
+      performance: {}
     };
   },
   created: function() {
@@ -14,7 +15,34 @@ var HomePage = {
      console.log(this.productions);
    }.bind(this));
   },
-  methods: {},
+  methods: {
+    isAdmin: function() {
+      var adminTest = localStorage.getItem("admin");
+      if (adminTest === "true") {
+        return true
+      }
+      else {
+        return false
+      }
+    },
+    setPerf: function(performance) {
+      this.performance = performance;
+    },
+    save: function(performance) {
+      console.log(performance);
+      var params = {
+        date: performance.date,
+        time: performance.time,
+        tickets_available: performance.tickets_available,
+        tickets_sold: performance.tickets_sold,
+        ticket_price: performance.ticket_price
+        };
+        console.log(params);  
+      axios
+        .patch("/api/performances/" + performance.id, params)
+        // .then(function(response) {}) 
+    },    
+  },
   computed: {}
 };
 
@@ -31,6 +59,115 @@ var ShowProductionPage = {
       console.log(this.production);
     }.bind(this)); 
   },
+};
+
+var ProfessionalNewPage = {
+  template: "#professional-new-page",
+  data: function() {
+    return {
+      name: "",
+      bio: "",
+      image: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        bio: this.bio,
+        image: this.image
+      };
+      axios
+        .post("/api/professionals", params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+
+
+var RoleIndexPage = {
+  template: "#role-index-page",
+  data: function() {
+    return {
+      message: "List of Roles",
+      roles: [],
+      role: {}
+      // productions: []
+    };
+  },
+  created: function() {
+    axios.get("/api/roles").then(function(response){
+     this.roles = response.data;
+     console.log(this.roles);
+   }.bind(this));    
+  },
+  methods: {
+    isAdmin: function() {
+      var adminTest = localStorage.getItem("admin");
+      if (adminTest === "true") {
+        return true
+      }
+      else {
+        return false
+      }
+    },
+    setRole: function(role) {
+      this.role = role;
+    },
+    save: function(role) {
+      console.log(role);
+      var params = {
+        production_id: role.production_id,
+        professional_id: role.professional_id,
+        title: role.title
+        };
+        console.log(params);  
+      axios
+        .patch("/api/roles/" + role.id, params)
+        // .then(function(response) {}) 
+    },    
+  },
+  computed: {}
+};
+
+var RoleNewPage = {
+  template: "#role-new-page",
+  data: function() {
+    return {
+      production_id: "",
+      professional_id: "",
+      title: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        production_id: this.production_id,
+        professional_id: this.professional_id,
+        title: this.title
+      };
+      axios
+        .post("/api/roles", params)
+        .then(function(response) {
+          router.push("/roles");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
 };
 
 var TicketCartPage = {
@@ -148,7 +285,7 @@ var LoginPage = {
             "Bearer " + response.data.jwt;
             console.log(response);
           localStorage.setItem("jwt", response.data.jwt);
-          sessionStorage.setItem("member", response.data.member.id);
+          localStorage.setItem("admin", response.data.member.admin);
           router.push("/");
         })
         .catch(
@@ -167,6 +304,7 @@ var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
+    localStorage.removeItem("admin");
     router.push("/");
   }
 };
@@ -177,6 +315,9 @@ var router = new VueRouter({
   routes: [
   { path: "/", component: HomePage },
   { path: "/productions/:id", component: ShowProductionPage },
+  { path: "/roles", component: RoleIndexPage },
+  { path: "/roles/new", component: RoleNewPage },
+  { path: "/professionals/new", component: ProfessionalNewPage },
   { path: "/carted_tickets/", component: TicketCartPage },
   { path: "/carted_tickets/:id/edit", component: TicketEditPage },
   { path: "/signup", component: SignupPage },
@@ -197,5 +338,13 @@ var app = new Vue({
     if (jwt) {
       axios.defaults.headers.common["Authorization"] = jwt;
     }
+  },
+  methods: {
+    isLoggedIn: function() {
+      if (localStorage.getItem("jwt")) {
+        return true;
+      }
+      return false;
+    },
   }
 });
