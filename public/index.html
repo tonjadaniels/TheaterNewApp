@@ -19,6 +19,7 @@
 </head>
 <body>
   <div id="vue-app">
+    <div class="container" style="margin-right: 15px;margin-left: 15px">
 
     <a href="/#/signup">Signup</a>
     <a href="/#/login">Login</a>
@@ -26,6 +27,7 @@
     <a v-if="this.$route.path !== '/carted_tickets'"href="/#/carted_tickets">Proceed to Checkout</a>
     <router-view></router-view>
 
+    </div>
   </div>
 </body>
 </html>

@@ -109,10 +109,6 @@ var RoleIndexPage = {
      this.roles = response.data;
      console.log(this.roles);
    }.bind(this));    
-   //  axios.get("/api/productions").then(function(response){
-   //   this.productions = response.data;
-   //   console.log(this.productions);
-   // }.bind(this));
   },
   methods: {
     isAdmin: function() {

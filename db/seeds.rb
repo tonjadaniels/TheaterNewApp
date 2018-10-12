@@ -1,12 +1,27 @@
+
 Member.create!([
   {name: "Tom Hanks", address: "1 Forest Street, Beverly Hills CA 90210", phone: "(310) 555-6677", email: "thanks@gmail.com", password_digest: "$2a$10$.duNQuUMZxnuBG9E.PQtGONQsejVA1ENq7IInmgGbVlOC5HC3nbAC", volunteer: false, admin: false},
   {name: "Morgan Freeman", address: "10 Pearly Gates Way, Beverly Hills, CA 90210", phone: "(310) 555-1111", email: "morgan@gmail.com", password_digest: "$2a$10$IpQxl/SGEzK/7csujS95Zux1ia24h9oOnqSc0pZwn1WOB3ZRtwbBO", volunteer: false, admin: false},
-  {name: "Michael Gallipo", address: "100 Winkley Farm Lane, Rochester, NH 03867", phone: "(603) 531-9707", email: "deviljmg@yahoo.com", password_digest: "$2a$10$Mf2vv1ujZps44D/J05VNFupJBvzuq4Yzf0mAQIrZ2T/hZdJfy9HhK", volunteer: false, admin: true}
+  {name: "Michael Gallipo", address: "100 Winkley Farm Lane, Rochester, NH 03867", phone: "(603) 531-9707", email: "deviljmg@yahoo.com", password_digest: "$2a$10$Mf2vv1ujZps44D/J05VNFupJBvzuq4Yzf0mAQIrZ2T/hZdJfy9HhK", volunteer: false, admin: true},
+  {name: "Tonja Daniels", address: "35 Walnut Street, San Diego, CA 92100", phone: "(978) 555-3322", email: "tonjad@gmail.com", password_digest: "$2a$10$xSBZqAnHXsUWUufi.daB4.9KgOaLVWFNNW4CPkXNd5T5701jnmZO6", volunteer: false, admin: true},
+  {name: "Cary Elwes", address: "200 Buttercup Lane, Beverly Hills, CA 90210", phone: "(310) 555-0123", email: "cary@bride.net", password_digest: "$2a$10$hmIPHAqpFjFXKuBYwqzG7ucsVVBZGJxNm7Gg0kY4jHn38uqtwAPz6", volunteer: false, admin: false}
 ])
 Performance.create!([
   {production_id: 1, date: "2018-10-18", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
-  {production_id: 1, date: "2018-10-19", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
-  {production_id: 1, date: "2018-10-20", time: "2000-01-01 19:30:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"}
+  {production_id: 2, date: "2018-01-12", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 2, date: "2018-12-02", time: "2000-01-01 15:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 2, date: "2018-12-02", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 2, date: "2018-12-05", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 2, date: "2018-12-06", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 2, date: "2018-12-07", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"},
+  {production_id: 3, date: "2019-01-16", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "45.0"},
+  {production_id: 3, date: "2019-01-17", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "45.0"},
+  {production_id: 3, date: "2019-01-18", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "45.0"},
+  {production_id: 3, date: "2019-01-19", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "45.0"},
+  {production_id: 3, date: "2019-01-20", time: "2000-01-01 13:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "30.0"},
+  {production_id: 3, date: "2019-01-20", time: "2000-01-01 19:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "45.0"},
+  {production_id: 1, date: "2018-10-20", time: "2000-01-01 20:00:00", tickets_available: 250, tickets_sold: 25, ticket_price: "50.0"},
+  {production_id: 1, date: "2018-10-19", time: "2000-01-01 19:00:00", tickets_available: 250, tickets_sold: 0, ticket_price: "50.0"}
 ])
 Production.create!([
   {title: "Seize The King", synopsis_short: "Full-throttle reinterpretation of Shakespeare's Richard III. With England's throne empty, Richard knocks down threats to his rule, fueling his insatiable ambition and paranoia.", synopsis_long: nil, image_small: nil, image_large: "https://m99hcb.media.zestyio.com/STK-artstix-1100x400-2.91e4652ca57ce9ccaded162182778c38.jpg"},
@@ -36,7 +51,19 @@ Role.create!([
   {production_id: 1, professional_id: 2, title: "Writer"},
   {production_id: 1, professional_id: 3, title: "Actor"},
   {production_id: 1, professional_id: 4, title: "Actor"},
-  {production_id: 1, professional_id: 5, title: "Actor"}
+  {production_id: 1, professional_id: 5, title: "Actor"},
+  {production_id: 2, professional_id: 7, title: "Writer"},
+  {production_id: 2, professional_id: 8, title: "Actor"},
+  {production_id: 2, professional_id: 9, title: "Actor"},
+  {production_id: 2, professional_id: 10, title: "Actor"},
+  {production_id: 2, professional_id: 11, title: "Actor"},
+  {production_id: 3, professional_id: 12, title: "Director"},
+  {production_id: 3, professional_id: 13, title: "Writer"},
+  {production_id: 3, professional_id: 14, title: "Actor"},
+  {production_id: 3, professional_id: 15, title: "Actor"},
+  {production_id: 2, professional_id: 6, title: "Director"},
+  {production_id: 3, professional_id: 16, title: "Understudy"},
+  {production_id: 1, professional_id: 16, title: "Understudy"}
 ])
 CartedTicket.create!([
   {member_id: 2, performance_id: 3, order_id: nil, quantity: 3, status: "carted"},
