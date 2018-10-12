@@ -1,1 +1,2 @@
-json.partial! @performance, partial: 'performance', as: :performance
+json.partial! @performance, partial: 'performance'
+# , as: :performance

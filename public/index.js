@@ -6,7 +6,8 @@ var HomePage = {
     return {
       message: "Welcome to the show",
       productions: [],
-      performance: {}
+      performance: {},
+      performances: {}
     };
   },
   created: function() {
@@ -15,7 +16,26 @@ var HomePage = {
      console.log(this.productions);
    }.bind(this));
   },
-  methods: {
+  
+  computed: {}
+};
+
+var ShowProductionPage = {
+  template: "#show-production-page",
+  data: function(){
+    return {
+      production: {performances: [{}]},
+      performance: {},
+      quantity: ""
+    };
+  },
+  created: function() {
+    axios.get("api/productions/" + this.$route.params.id).then(function(response){
+      this.production = response.data;
+      console.log(this.production);
+    }.bind(this)); 
+  },
+methods: {
     isAdmin: function() {
       var adminTest = localStorage.getItem("admin");
       if (adminTest === "true") {
@@ -24,6 +44,12 @@ var HomePage = {
       else {
         return false
       }
+    },
+    isLoggedIn: function() {
+      if (localStorage.getItem("jwt")) {
+        return true;
+      }
+      return false;
     },
     setPerf: function(performance) {
       this.performance = performance;
@@ -41,24 +67,19 @@ var HomePage = {
       axios
         .patch("/api/performances/" + performance.id, params)
         // .then(function(response) {}) 
-    },    
-  },
-  computed: {}
-};
-
-var ShowProductionPage = {
-  template: "#show-production-page",
-  data: function(){
-    return {
-      production: {performances: [{}]}
-    };
-  },
-  created: function() {
-    axios.get("api/productions/" + this.$route.params.id).then(function(response){
-      this.production = response.data;
-      console.log(this.production);
-    }.bind(this)); 
-  },
+    },  
+    saveToCart: function(performance) {
+      console.log(performance);
+      var params = {
+        quantity: this.quantity,
+        performance_id: performance.id
+        };
+        console.log(params);  
+      axios
+        .post("/api/carted_tickets/", params)
+        // .then(function(response) {}) 
+    },      
+  },  
 };
 
 var ProfessionalNewPage = {
@@ -174,7 +195,8 @@ var TicketCartPage = {
   template: "#ticket-cart-page",
   data: function() {
     return {
-      cartedTickets: []
+      cartedTickets: [],
+      orderId: ""
     };
   },
   created: function() {
@@ -189,7 +211,21 @@ var TicketCartPage = {
       then(function(response){
         router.push("/");
       })
-    }
+    },
+    orderTickets(cartedTickets) {
+      cartedTickets.forEach(function(ticket) {
+        var params = {
+          total: ticket.total,
+          ticket_id: ticket.id
+        };
+        axios
+        .post("api/orders", params)
+        .then(function(response) {
+        });
+        router.push('/');
+      });
+
+    },
   },
   computed: {}
 };

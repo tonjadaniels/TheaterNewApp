@@ -4,6 +4,8 @@ json.synopsis_short production.synopsis_short
 json.synopsis_long production.synopsis_long
 json.image_small production.image_small
 json.image_large production.image_large
+json.start_date production.start_date
+json.end_date production.end_date
 
 json.cast do
   json.array! production.roles.each.sort_by{|o| o[:id]} do |role|
