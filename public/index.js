@@ -26,7 +26,7 @@ var ShowProductionPage = {
     return {
       production: {performances: [{}]},
       performance: {},
-      quantity: ""
+      quantity: 1
     };
   },
   created: function() {
@@ -67,7 +67,21 @@ methods: {
       axios
         .patch("/api/performances/" + performance.id, params)
         // .then(function(response) {}) 
+    },
+    addOne: function(quantity) {
+      this.quantity += 1;
     },  
+    subtractOne: function(quantity) {
+      this.quantity -= 1;
+    },  
+    resetQuantity: function(quantity) {
+      this.quantity = 1;
+    },
+    available: function(performance) {
+      if (this.quantity < this.performance.unsold_tickets) { 
+        return true
+      };
+    },
     saveToCart: function(performance) {
       console.log(performance);
       var params = {
@@ -76,8 +90,8 @@ methods: {
         };
         console.log(params);  
       axios
-        .post("/api/carted_tickets/", params)
-        // .then(function(response) {}) 
+        .post("/api/carted_tickets/", params);
+      this.quantity = 1;
     },      
   },  
 };
@@ -113,7 +127,42 @@ var ProfessionalNewPage = {
   }
 };
 
-
+var PerformanceNewPage = {
+  template: "#performance-new-page",
+  data: function() {
+    return {
+      production_id: "",
+      date: "",
+      time: "",
+      tickets_available: "",
+      tickets_sold: "",
+      ticket_price: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        production_id: this.production_id,
+        date: this.date,
+        time: this.time,
+        tickets_available: this.tickets_available,
+        tickets_sold: this.tickets_sold,
+        ticket_price: this.ticket_price
+      };
+      axios
+        .post("/api/performances", params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
 
 var RoleIndexPage = {
   template: "#role-index-page",
@@ -354,6 +403,7 @@ var router = new VueRouter({
   { path: "/roles", component: RoleIndexPage },
   { path: "/roles/new", component: RoleNewPage },
   { path: "/professionals/new", component: ProfessionalNewPage },
+  { path: "/performances/new", component: PerformanceNewPage },
   { path: "/carted_tickets/", component: TicketCartPage },
   { path: "/carted_tickets/:id/edit", component: TicketEditPage },
   { path: "/signup", component: SignupPage },

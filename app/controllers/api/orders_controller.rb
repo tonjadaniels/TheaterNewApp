@@ -10,6 +10,9 @@ class Api::OrdersController < ApplicationController
       @carted_ticket.status = "ordered"
       @carted_ticket.order_id = @order.id
       @carted_ticket.save
+      @performance = Performance.find(@carted_ticket.performance_id)
+      @performance.tickets_sold = @performance.tickets_sold + @carted_ticket.quantity
+      @performance.save
       render 'show.json.jbuilder'
     else
       render json: {errors: @performance.errors.full_message}, status: :unprocessable_entity

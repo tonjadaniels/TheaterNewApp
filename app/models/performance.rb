@@ -7,5 +7,9 @@ class Performance < ApplicationRecord
   def formatted_time
     time.strftime("%l:%M %p")
   end
+
+  def unsold_tickets
+    tickets_available - tickets_sold
+  end
   
 end
