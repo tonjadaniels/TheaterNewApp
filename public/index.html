@@ -21,10 +21,55 @@
   <div id="vue-app">
     <div class="container" style="margin-right: 15px;margin-left: 15px">
 
-    <a href="/#/signup">Signup</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <a class="navbar-brand" href="#">Codechella Theater</a>
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+     </button>
+
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+       <ul class="navbar-nav mr-auto">
+         <li class="nav-item active">
+           <a class="nav-link" href="/#/">Home <span class="sr-only">(current)</span></a>
+         </li>
+<!--          <li class="nav-item">
+           <a class="nav-link" href="#">Link</a>
+         </li> -->
+         <li class="nav-item dropdown" v-if="isAdmin()">
+           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Admin tools
+           </a>
+           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+             <a class="dropdown-item" href="#">Action</a>
+             <a class="dropdown-item" href="#">Another action</a>
+             <div class="dropdown-divider"></div>
+             <a class="dropdown-item" href="#">Something else here</a>
+           </div>
+
+         </li>
+         <li class="nav-item">
+          <a class="nav-link" href="/#/signup">Signup</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#/logout">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" v-if="this.$route.path !== '/carted_tickets'"href="/#/carted_tickets">Proceed to Checkout</a>
+        </li>
+           
+       </ul>
+
+     </div>
+    </nav>
+
+
+    <!-- <a href="/#/signup">Signup</a>
     <a href="/#/login">Login</a>
-    <a href="/#/logout">Logout</a>
-    <a v-if="this.$route.path !== '/carted_tickets'"href="/#/carted_tickets">Proceed to Checkout</a>
+    <a href="/#/logout">Logout</a> -->
+   <!--  <a v-if="this.$route.path !== '/carted_tickets'"href="/#/carted_tickets">Proceed to Checkout</a> -->
     <router-view></router-view>
 
     </div>
@@ -35,17 +80,14 @@
 <template id="home-page">
   <div class="vue-component">
 
-    <h1>{{ message }}</h1>
-    <div v-for="production in productions">
-      <a v-bind:href="'/#/productions/' + production.id">{{ production.title }}</a>
-    <div>{{ production.synopsis_short}}</div>
-
+<!--     <h1>{{ message }}</h1>
+ -->    <div v-for="production in productions" style="padding-top: 50px">
+      <h1><a v-bind:href="'/#/productions/' + production.id">{{ production.title }}</a></h1>
+      <h4> Running From {{production.start_date}} - {{production.end_date}}</h4>    
     <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large" style="width:100%"></a>
-    <h4> Running From {{production.start_date}} - {{production.end_date}}</h4>
-    
+    <div style="font-size: 20px">{{ production.synopsis_short}}</div>
+
   </div>
-
-
 
 
   </div>
@@ -67,10 +109,17 @@
       <div><img :src="role.professional_image" style="width:200px"></div>
     </div>
 
-    <div v-for="performance in production.performances">{{ performance.date}}&emsp;
+<div class="row">
+ 
+    <div v-for="performance in production.performances" class="col-md-4">
+       <div class="card">
+        <div class="card-body">{{ performance.date}}&emsp; {{performance.time}}<br>
     <button  v-if="isAdmin()" class="btn btn-outline-secondary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#performanceEdit">Edit</button>
     <button  v-if="isLoggedIn()" class="btn btn-outline-primary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#addToCart">Buy Tickets</button>
+        </div>
+      </div>
     </div>
+</div>
 
   <!-- Modal -->
 <div class="modal fade" id="performanceEdit" tabindex="-1" role="dialog" aria-labelledby="eperformanceEditLongTitle" aria-hidden="true">
