@@ -432,5 +432,14 @@ var app = new Vue({
       }
       return false;
     },
+    isAdmin: function() {
+      var adminTest = localStorage.getItem("admin");
+      if (adminTest === "true") {
+        return true
+      }
+      else {
+        return false
+      }
+    },
   }
 });
