@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     patch "carted_tickets/:id" => "carted_tickets#update"
     delete "carted_tickets/:id" => "carted_tickets#destroy"
 
+    get "orders/:id" => "orders#show"
+    post "orders" => "orders#create"
+
   end
 
 end

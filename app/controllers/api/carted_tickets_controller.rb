@@ -18,17 +18,17 @@ def index
     # end
 end
 
-def show
-  @carted_ticket = CartedTicket.find(params[:id])
+  def show
+    @carted_ticket = CartedTicket.find(params[:id])
 
-  render "show.json.jbuilder"
+    render "show.json.jbuilder"
 
-end 
+  end 
 
  def create
    @carted_ticket = CartedTicket.create(
      performance_id: params[:performance_id],
-     member_id: current_user.id,
+     member_id: current_member.id,
      quantity: params[:quantity],
      status: "carted",
    )
@@ -36,14 +36,19 @@ end
    render "show.json.jbuilder"
  end
 
-def update
-  @carted_ticket = CartedTicket.find(params[:id])
-  @carted_ticket.quantity = params[:quantity] 
-  @carted_ticket.save
-
-  render "show.json.jbuilder"
-
-end 
+  def update
+    @carted_ticket = CartedTicket.find(params[:id])
+    @carted_ticket.quantity = params[:quantity] || @carted_ticket.quantity
+    @carted_ticket.status = params[:status] || @carted_ticket.status
+    @carted_ticker.order_id = params[:order_id] || @carted_ticket.order_id
+    
+    if @carted_ticket.save
+      render "show.json.jbuilder"
+    else
+      render json: {errors: @performance.errors.full_message}, status: :unprocessable_entity
+    end
+    
+  end 
 
 
 def destroy

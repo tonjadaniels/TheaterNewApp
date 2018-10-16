@@ -6,7 +6,8 @@ var HomePage = {
     return {
       message: "Welcome to the show",
       productions: [],
-      performance: {}
+      performance: {},
+      performances: {}
     };
   },
   created: function() {
@@ -15,7 +16,26 @@ var HomePage = {
      console.log(this.productions);
    }.bind(this));
   },
-  methods: {
+  
+  computed: {}
+};
+
+var ShowProductionPage = {
+  template: "#show-production-page",
+  data: function(){
+    return {
+      production: {performances: [{}]},
+      performance: {},
+      quantity: 1
+    };
+  },
+  created: function() {
+    axios.get("api/productions/" + this.$route.params.id).then(function(response){
+      this.production = response.data;
+      console.log(this.production);
+    }.bind(this)); 
+  },
+methods: {
     isAdmin: function() {
       var adminTest = localStorage.getItem("admin");
       if (adminTest === "true") {
@@ -24,6 +44,12 @@ var HomePage = {
       else {
         return false
       }
+    },
+    isLoggedIn: function() {
+      if (localStorage.getItem("jwt")) {
+        return true;
+      }
+      return false;
     },
     setPerf: function(performance) {
       this.performance = performance;
@@ -41,24 +67,33 @@ var HomePage = {
       axios
         .patch("/api/performances/" + performance.id, params)
         // .then(function(response) {}) 
-    },    
-  },
-  computed: {}
-};
-
-var ShowProductionPage = {
-  template: "#show-production-page",
-  data: function(){
-    return {
-      production: {performances: [{}]}
-    };
-  },
-  created: function() {
-    axios.get("api/productions/" + this.$route.params.id).then(function(response){
-      this.production = response.data;
-      console.log(this.production);
-    }.bind(this)); 
-  },
+    },
+    addOne: function(quantity) {
+      this.quantity += 1;
+    },  
+    subtractOne: function(quantity) {
+      this.quantity -= 1;
+    },  
+    resetQuantity: function(quantity) {
+      this.quantity = 1;
+    },
+    available: function(performance) {
+      if (this.quantity < this.performance.unsold_tickets) { 
+        return true
+      };
+    },
+    saveToCart: function(performance) {
+      console.log(performance);
+      var params = {
+        quantity: this.quantity,
+        performance_id: performance.id
+        };
+        console.log(params);  
+      axios
+        .post("/api/carted_tickets/", params);
+      this.quantity = 1;
+    },      
+  },  
 };
 
 var ProfessionalNewPage = {
@@ -92,7 +127,42 @@ var ProfessionalNewPage = {
   }
 };
 
-
+var PerformanceNewPage = {
+  template: "#performance-new-page",
+  data: function() {
+    return {
+      production_id: "",
+      date: "",
+      time: "",
+      tickets_available: "",
+      tickets_sold: "",
+      ticket_price: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        production_id: this.production_id,
+        date: this.date,
+        time: this.time,
+        tickets_available: this.tickets_available,
+        tickets_sold: this.tickets_sold,
+        ticket_price: this.ticket_price
+      };
+      axios
+        .post("/api/performances", params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
 
 var RoleIndexPage = {
   template: "#role-index-page",
@@ -174,7 +244,8 @@ var TicketCartPage = {
   template: "#ticket-cart-page",
   data: function() {
     return {
-      cartedTickets: []
+      cartedTickets: [],
+      orderId: ""
     };
   },
   created: function() {
@@ -189,7 +260,21 @@ var TicketCartPage = {
       then(function(response){
         router.push("/");
       })
-    }
+    },
+    orderTickets(cartedTickets) {
+      cartedTickets.forEach(function(ticket) {
+        var params = {
+          total: ticket.total,
+          ticket_id: ticket.id
+        };
+        axios
+        .post("api/orders", params)
+        .then(function(response) {
+        });
+        router.push('/');
+      });
+
+    },
   },
   computed: {}
 };
@@ -318,6 +403,7 @@ var router = new VueRouter({
   { path: "/roles", component: RoleIndexPage },
   { path: "/roles/new", component: RoleNewPage },
   { path: "/professionals/new", component: ProfessionalNewPage },
+  { path: "/performances/new", component: PerformanceNewPage },
   { path: "/carted_tickets/", component: TicketCartPage },
   { path: "/carted_tickets/:id/edit", component: TicketEditPage },
   { path: "/signup", component: SignupPage },
