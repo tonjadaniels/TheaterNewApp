@@ -21,7 +21,7 @@
   <div id="vue-app">
     <div class="container" style="margin-right: 15px;margin-left: 15px">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
      <a class="navbar-brand" href="#">Codechella Theater</a>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
@@ -40,20 +40,21 @@
              Admin tools
            </a>
            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-             <a class="dropdown-item" href="#">Action</a>
-             <a class="dropdown-item" href="#">Another action</a>
+             <a class="dropdown-item" href="/#/performances/new">Create New Performance</a>
+             <a class="dropdown-item" href="/#/professionals/new">Create New Professional</a>
+             <a class="dropdown-item" href="/#/roles/new">Create New Role</a>
              <div class="dropdown-divider"></div>
-             <a class="dropdown-item" href="#">Something else here</a>
+             <a class="dropdown-item" href="/#/roles">Edit a Role</a>
            </div>
 
          </li>
-         <li class="nav-item">
+         <li class="nav-item active" v-if="!isLoggedIn()">
           <a class="nav-link" href="/#/signup">Signup</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active" v-if="!isLoggedIn()">
           <a class="nav-link" href="/#/login">Login</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active" v-if="isLoggedIn()">
           <a class="nav-link" href="/#/logout">Logout</a>
         </li>
         <li class="nav-item">
@@ -113,7 +114,7 @@
  
     <div v-for="performance in production.performances" class="col-md-4">
        <div class="card">
-        <div class="card-body">{{ performance.date}}&emsp; {{performance.time}}<br>
+        <div class="card-body">{{ performance.date}}&ensp; {{performance.time}} &ensp; ${{performance.ticket_price}}0<br>
     <button  v-if="isAdmin()" class="btn btn-outline-secondary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#performanceEdit">Edit</button>
     <button  v-if="isLoggedIn()" class="btn btn-outline-primary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#addToCart">Buy Tickets</button>
         </div>
