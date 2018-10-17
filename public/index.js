@@ -1,4 +1,4 @@
-  /* global Vue, VueRouter, axios */
+/* global Vue, VueRouter, axios */
 
 var HomePage = {
   template: "#home-page",
@@ -11,38 +11,41 @@ var HomePage = {
     };
   },
   created: function() {
-    axios.get("/api/productions").then(function(response){
-     this.productions = response.data;
-     console.log(this.productions);
-   }.bind(this));
+    axios.get("/api/productions").then(
+      function(response) {
+        this.productions = response.data;
+        console.log(this.productions);
+      }.bind(this)
+    );
   },
-  
+
   computed: {}
 };
 
 var ShowProductionPage = {
   template: "#show-production-page",
-  data: function(){
+  data: function() {
     return {
-      production: {performances: [{}]},
+      production: { performances: [{}] },
       performance: {},
       quantity: 1
     };
   },
   created: function() {
-    axios.get("api/productions/" + this.$route.params.id).then(function(response){
-      this.production = response.data;
-      console.log(this.production);
-    }.bind(this)); 
+    axios.get("api/productions/" + this.$route.params.id).then(
+      function(response) {
+        this.production = response.data;
+        console.log(this.production);
+      }.bind(this)
+    );
   },
-methods: {
+  methods: {
     isAdmin: function() {
       var adminTest = localStorage.getItem("admin");
       if (adminTest === "true") {
-        return true
-      }
-      else {
-        return false
+        return true;
+      } else {
+        return false;
       }
     },
     isLoggedIn: function() {
@@ -62,38 +65,72 @@ methods: {
         tickets_available: performance.tickets_available,
         tickets_sold: performance.tickets_sold,
         ticket_price: performance.ticket_price
-        };
-        console.log(params);  
-      axios
-        .patch("/api/performances/" + performance.id, params)
-        // .then(function(response) {}) 
+      };
+      console.log(params);
+      axios.patch("/api/performances/" + performance.id, params);
+      // .then(function(response) {})
     },
     addOne: function(quantity) {
       this.quantity += 1;
-    },  
+    },
     subtractOne: function(quantity) {
       this.quantity -= 1;
-    },  
+    },
     resetQuantity: function(quantity) {
       this.quantity = 1;
     },
     available: function(performance) {
-      if (this.quantity < this.performance.unsold_tickets) { 
-        return true
-      };
+      if (this.quantity < this.performance.unsold_tickets) {
+        return true;
+      }
     },
     saveToCart: function(performance) {
       console.log(performance);
       var params = {
         quantity: this.quantity,
         performance_id: performance.id
-        };
-        console.log(params);  
-      axios
-        .post("/api/carted_tickets/", params);
+      };
+      console.log(params);
+      axios.post("/api/carted_tickets/", params);
       this.quantity = 1;
-    },      
-  },  
+    }
+  }
+};
+
+var ProfessionalIndexPage = {
+  template: "#professional-index-page",
+  data: function() {
+    return {
+      message: "List of Professionals",
+      professionals: [],
+      professional: {}
+    };
+  },
+  created: function() {
+    axios.get("/api/professionals").then(
+      function(response) {
+        this.professionals = response.data;
+        console.log(this.professionals);
+      }.bind(this)
+    );
+  },
+  methods: {
+    setProfessional: function(professional) {
+      this.professional = professional;
+    },
+    save: function(professional) {
+      console.log(professional);
+      var params = {
+        name: professional.name,
+        bio: professional.bio,
+        image: professional.image
+      };
+      console.log(params);
+      axios.patch("/api/professionals/" + professional.id, params);
+      // .then(function(response) {})
+    }
+  },
+  computed: {}
 };
 
 var ProfessionalNewPage = {
@@ -175,19 +212,20 @@ var RoleIndexPage = {
     };
   },
   created: function() {
-    axios.get("/api/roles").then(function(response){
-     this.roles = response.data;
-     console.log(this.roles);
-   }.bind(this));    
+    axios.get("/api/roles").then(
+      function(response) {
+        this.roles = response.data;
+        console.log(this.roles);
+      }.bind(this)
+    );
   },
   methods: {
     isAdmin: function() {
       var adminTest = localStorage.getItem("admin");
       if (adminTest === "true") {
-        return true
-      }
-      else {
-        return false
+        return true;
+      } else {
+        return false;
       }
     },
     setRole: function(role) {
@@ -199,12 +237,11 @@ var RoleIndexPage = {
         production_id: role.production_id,
         professional_id: role.professional_id,
         title: role.title
-        };
-        console.log(params);  
-      axios
-        .patch("/api/roles/" + role.id, params)
-        // .then(function(response) {}) 
-    },    
+      };
+      console.log(params);
+      axios.patch("/api/roles/" + role.id, params);
+      // .then(function(response) {})
+    }
   },
   computed: {}
 };
@@ -249,17 +286,18 @@ var TicketCartPage = {
     };
   },
   created: function() {
-    axios.get("/api/carted_tickets").then(function(response){
-     this.cartedTickets = response.data;
-     console.log(this.cartedTickets);
-   }.bind(this));
+    axios.get("/api/carted_tickets").then(
+      function(response) {
+        this.cartedTickets = response.data;
+        console.log(this.cartedTickets);
+      }.bind(this)
+    );
   },
   methods: {
-    deleteCartedTicket(ticket){
-      axios.delete("api/carted_tickets/" + ticket.id).
-      then(function(response){
+    deleteCartedTicket(ticket) {
+      axios.delete("api/carted_tickets/" + ticket.id).then(function(response) {
         router.push("/");
-      })
+      });
     },
     orderTickets(cartedTickets) {
       cartedTickets.forEach(function(ticket) {
@@ -267,14 +305,10 @@ var TicketCartPage = {
           total: ticket.total,
           ticket_id: ticket.id
         };
-        axios
-        .post("api/orders", params)
-        .then(function(response) {
-        });
-        router.push('/');
+        axios.post("api/orders", params).then(function(response) {});
+        router.push("/");
       });
-
-    },
+    }
   },
   computed: {}
 };
@@ -287,10 +321,12 @@ var TicketEditPage = {
     };
   },
   created: function() {
-    axios.get("/api/carted_tickets/" + this.$route.params.id).then(function(response){
-     this.quantity = response.data.quantity;
-     console.log(this.quantity);
-   }.bind(this));
+    axios.get("/api/carted_tickets/" + this.$route.params.id).then(
+      function(response) {
+        this.quantity = response.data.quantity;
+        console.log(this.quantity);
+      }.bind(this)
+    );
   },
   methods: {
     submit: function() {
@@ -307,7 +343,7 @@ var TicketEditPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
-    },
+    }
   },
   computed: {}
 };
@@ -368,7 +404,7 @@ var LoginPage = {
         .then(function(response) {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
-            console.log(response);
+          console.log(response);
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("admin", response.data.member.admin);
           router.push("/");
@@ -394,22 +430,20 @@ var LogoutPage = {
   }
 };
 
-
-
 var router = new VueRouter({
   routes: [
-  { path: "/", component: HomePage },
-  { path: "/productions/:id", component: ShowProductionPage },
-  { path: "/roles", component: RoleIndexPage },
-  { path: "/roles/new", component: RoleNewPage },
-  { path: "/professionals/new", component: ProfessionalNewPage },
-  { path: "/performances/new", component: PerformanceNewPage },
-  { path: "/carted_tickets/", component: TicketCartPage },
-  { path: "/carted_tickets/:id/edit", component: TicketEditPage },
-  { path: "/signup", component: SignupPage },
-  { path: "/login", component: LoginPage },
-  { path: "/logout", component: LogoutPage }
-
+    { path: "/", component: HomePage },
+    { path: "/productions/:id", component: ShowProductionPage },
+    { path: "/roles", component: RoleIndexPage },
+    { path: "/roles/new", component: RoleNewPage },
+    { path: "/professionals/new", component: ProfessionalNewPage },
+    { path: "/professionals", component: ProfessionalIndexPage },
+    { path: "/performances/new", component: PerformanceNewPage },
+    { path: "/carted_tickets/", component: TicketCartPage },
+    { path: "/carted_tickets/:id/edit", component: TicketEditPage },
+    { path: "/signup", component: SignupPage },
+    { path: "/login", component: LoginPage },
+    { path: "/logout", component: LogoutPage }
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
@@ -435,11 +469,10 @@ var app = new Vue({
     isAdmin: function() {
       var adminTest = localStorage.getItem("admin");
       if (adminTest === "true") {
-        return true
+        return true;
+      } else {
+        return false;
       }
-      else {
-        return false
-      }
-    },
+    }
   }
 });
