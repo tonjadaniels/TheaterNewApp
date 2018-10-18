@@ -21,8 +21,8 @@
   <div id="vue-app">
     <div class="container" style="margin-right: 15px;margin-left: 15px">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-     <a class="navbar-brand" href="#">Codechella Theater</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+     <a class="navbar-brand" href="/#/">Codechella Theater</a>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
      </button>
@@ -40,20 +40,22 @@
              Admin tools
            </a>
            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-             <a class="dropdown-item" href="#">Action</a>
-             <a class="dropdown-item" href="#">Another action</a>
+             <a class="dropdown-item" href="/#/performances/new">Create New Performance</a>
+             <a class="dropdown-item" href="/#/professionals/new">Create New Professional</a>
+             <a class="dropdown-item" href="/#/roles/new">Create New Role</a>
              <div class="dropdown-divider"></div>
-             <a class="dropdown-item" href="#">Something else here</a>
+             <a class="dropdown-item" href="/#/roles">Edit a Role</a>
+             <a class="dropdown-item" href="/#/professionals">Edit a Professional</a>
            </div>
 
          </li>
-         <li class="nav-item">
+         <li class="nav-item active" v-if="!isLoggedIn()">
           <a class="nav-link" href="/#/signup">Signup</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active" v-if="!isLoggedIn()">
           <a class="nav-link" href="/#/login">Login</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active" v-if="isLoggedIn()">
           <a class="nav-link" href="/#/logout">Logout</a>
         </li>
         <li class="nav-item">
@@ -80,8 +82,8 @@
 <template id="home-page">
   <div class="vue-component">
 
-<!--     <h1>{{ message }}</h1>
- -->    <div v-for="production in productions" style="padding-top: 50px">
+
+   <div v-for="production in productions" style="padding-top: 50px">
       <h1><a v-bind:href="'/#/productions/' + production.id">{{ production.title }}</a></h1>
       <h4> Running From {{production.start_date}} - {{production.end_date}}</h4>    
     <a v-bind:href="'/#/productions/' + production.id"><img :src="production.image_large" style="width:100%"></a>
@@ -96,24 +98,27 @@
 <template id="show-production-page">
   <div class="vue-component">
     <h2>{{ production.title }}</h2>
-    <div>${{ production.performances[0].ticket_price }}</div>
     <img :src="production.image_large" style="width:100%">
     <p>{{ production.synopsis_short}}</p>
 
 
     <h1>Cast</h1>
-    <div v-for="role in production.cast">
-      <div>{{ role.name }} </div> 
-      <div>{{ role.current_role }} </div>
-      <div>{{ role.bio }}</div>
-      <div><img :src="role.professional_image" style="width:200px"></div>
+    <div class="row">
+      <div v-for="role in production.cast" class="col-md-6">
+        <div class="card" style="border:none">
+          <h5>{{ role.name }} </h5> 
+          <div>{{ role.current_role }} </div>
+          <div>{{ role.bio }}</div>
+          <div><img :src="role.professional_image" style="width:200px"></div>
+        </div>
+      </div>
     </div>
 
 <div class="row">
  
     <div v-for="performance in production.performances" class="col-md-4">
        <div class="card">
-        <div class="card-body">{{ performance.date}}&emsp; {{performance.time}}<br>
+        <div class="card-body">{{ performance.date}}&ensp; {{performance.time}} &ensp; ${{performance.ticket_price}}0<br>
     <button  v-if="isAdmin()" class="btn btn-outline-secondary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#performanceEdit">Edit</button>
     <button  v-if="isLoggedIn()" class="btn btn-outline-primary btn-sm" v-on:click="setPerf(performance)" data-toggle="modal" data-target="#addToCart">Buy Tickets</button>
         </div>
@@ -243,6 +248,56 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" v-on:click="save(role)" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</template>
+
+<template id="professional-index-page">
+  <div class="vue-component">
+    <div class="container">
+
+    <h1>{{ message }}</h1>
+    <div v-for="professional in professionals">
+      <div> Name:  {{ professional.name }}</div>
+      <div> Bio:  {{ professional.bio }}</div>
+      <div> Image:  {{ professional.image}}</div>
+      <button  class="btn btn-outline-secondary btn-sm" v-on:click="setProfessional(professional)" data-toggle="modal" data-target="#professionalEdit">Edit</button>
+      <br>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="professionalEdit" tabindex="-1" role="dialog" aria-labelledby="professionalEditLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="professionalLongTitle">Edit Professional Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+        <label>Name:</label>
+        <input class="form-control" v-model="professional.name">
+        </div>
+        <div class="form-group">
+        <label>Bio:</label>
+        <textarea  class="form-control" v-model="professional.bio" rows="6">
+        </textarea>
+        <div class="form-group">
+        <label>Image:</label>
+        <input class="form-control" v-model="professional.image">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="save(professional)" data-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>
